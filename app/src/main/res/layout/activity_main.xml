@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="bvideo.lhq.com.bvideo.MainActivity">
+
+   <android.opengl.GLSurfaceView
+       android:id="@+id/glsurfaceview"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent" />
+   <bvideo.lhq.com.bvideo.view.TimerRecordView
+       android:id="@+id/timer_record_view"
+       android:layout_width="76dp"
+       android:layout_height="76dp"
+       android:layout_alignParentBottom="true"
+       android:layout_centerHorizontal="true"
+       android:layout_marginBottom="35dp"/>
+</RelativeLayout>

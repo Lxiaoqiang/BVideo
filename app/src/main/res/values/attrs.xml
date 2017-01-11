@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="TimerRecordView">
+        <!-- 字体大小 -->
+        <attr name="text_size" format="dimension" />
+        <!-- 内圆的背景 -->
+        <attr name="inside_circle_color" format="color" />
+        <!-- 外圆环的颜色 -->
+        <attr name="outside_circle_color" format="color" />
+        <!-- 动态圆环的颜色值 -->
+        <attr name="dynamic_arc_color" format="color" />
+        <attr name="text_color" format="color" />
+        <!-- 透明度 -->
+        <attr name="circle_and_outsidecircle_alpha" format="dimension" />
+    </declare-styleable>
+
+</resources>
