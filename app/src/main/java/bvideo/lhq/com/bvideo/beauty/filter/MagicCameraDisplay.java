@@ -17,6 +17,7 @@ import javax.microedition.khronos.egl.EGLSurface;
 import javax.microedition.khronos.opengles.GL10;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.SurfaceTexture;
@@ -27,6 +28,7 @@ import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLSurfaceView.Renderer;
 import android.os.Environment;
+import android.util.Log;
 
 import bvideo.lhq.com.bvideo.beauty.core.EglCore;
 import bvideo.lhq.com.bvideo.beauty.core.MediaAudioEncoder;
@@ -223,7 +225,7 @@ public class MagicCameraDisplay implements Renderer {
 				}
 				mCameraInputFilter.onOutputSizeChanged(mImageWidth,
 						mImageHeight);
-				CameraInterface.getInstance().startPreview(mSurfaceTexture);
+				CameraInterface.getInstance().startPreview(mSurfaceTexture,mContext);
 			}
 		});
 	}
@@ -248,7 +250,8 @@ public class MagicCameraDisplay implements Renderer {
 		if (CameraInterface.getInstance().getCamera() != null) {
 			boolean flipHorizontal = CameraInterface.getInstance()
 					.isFlipHorizontal();
-			adjustPosition(CameraInterface.getInstance().getOrientation(),
+			int orintation=0;// 此处角度的考虑放到 camera.setDisplayOriontation里了，如果此处考虑角度，则需要mCamera.setDisplayOrientation(0)
+			adjustPosition(orintation,
 					flipHorizontal, !flipHorizontal);
 		}
 		setUpCamera();
@@ -432,8 +435,8 @@ public class MagicCameraDisplay implements Renderer {
         File mediaFile;
         mediaFile = new File(mediaStorageDir.getPath() + File.separator +
                     "VID_" + timeStamp + ".mp4");
-
-        return mediaFile;
+//		Log.e("path",String.format("path==%s",mediaFile.getAbsolutePath()));
+		return mediaFile;
 	}
 
 	public void startRecording() {
