@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
@@ -115,6 +116,8 @@ public class CameraInterface implements PreviewCallback {
 
 		if (mCamera == null) {
 			try {
+				camera_num=findFrontCamera();
+				Log.e("camera_num",String.format("camera_num==%s",camera_num));
 				mCamera = Camera.open(camera_num);
 				setDefaultParameters();
 				isOpen = true;
@@ -134,7 +137,20 @@ public class CameraInterface implements PreviewCallback {
 		}
 		return isOpen;
 	}
-
+	private int findFrontCamera(){
+		int cameraCount = 1;
+		CameraInfo cameraInfo = new CameraInfo();
+		cameraCount = Camera.getNumberOfCameras(); // get cameras number
+		Log.e("cameraCount",String.format("cameraCount==%s",cameraCount));
+		for ( int camIdx = 0; camIdx < cameraCount;camIdx++ ) {
+			Camera.getCameraInfo( camIdx, cameraInfo ); // get camerainfo
+			if ( cameraInfo.facing == CameraInfo.CAMERA_FACING_FRONT ) {
+				// 代表摄像头的方位，目前有定义值两个分别为CAMERA_FACING_FRONT前置和CAMERA_FACING_BACK后置
+				return camIdx;
+			}
+		}
+		return 1;
+	}
 	/**
 	 * 停止预览，释放Camera
 	 */
@@ -492,7 +508,7 @@ public class CameraInterface implements PreviewCallback {
 		return cameraInfo.orientation;
 	}
 
-	public void startPreview(SurfaceTexture surfaceTexture) {
+	public void startPreview(SurfaceTexture surfaceTexture,Context context) {
 		if (!isPushEncode) {
 			try {
 				avcCodec = new AvcEncoder(height, width, framerate, bitrate);
@@ -506,6 +522,19 @@ public class CameraInterface implements PreviewCallback {
 			mCamera.setPreviewTexture(surfaceTexture);
 			mCamera.addCallbackBuffer(vbuffer);
 			mCamera.setPreviewCallbackWithBuffer(this);
+
+			Activity activity=null;
+			// TODO 摄像头方向问题
+			int degrees=0;
+			if(context instanceof Activity){
+				activity= (Activity) context;
+				degrees = getCameraDisplayOrientation(activity);
+				Log.e("DisplayOrientation"," 最终结果：" + degrees);
+			}else {
+				degrees =getOrientation();
+			}
+			//如果 别处考虑了角度问题 这里就设置  degrees=0
+			mCamera.setDisplayOrientation(degrees);//这个默认的不一样 有的手机是 90 有的是270
 			mCamera.startPreview();// 开启预览
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -545,6 +574,7 @@ public class CameraInterface implements PreviewCallback {
 		} else { // back-facing
 			result = (cameraInfo.orientation - degrees + 360) % 360;
 		}
+		Log.e("DisplayOrientation","  获取到的degrees：" + degrees + "  result:" + result + "orientation:" + cameraInfo.orientation);
 		return result;
 	}
 
