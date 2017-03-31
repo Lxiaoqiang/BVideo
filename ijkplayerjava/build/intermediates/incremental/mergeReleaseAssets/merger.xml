@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="D:\lhqwork\BVideo\ijkplayerjava\src\main\assets"/></dataSet><dataSet config="release"><source path="D:\lhqwork\BVideo\ijkplayerjava\src\release\assets"/></dataSet></merger>
+<merger version="3"><dataSet config="main"><source path="H:\workspace\BVideo\ijkplayerjava\src\main\assets"/><source path="H:\workspace\BVideo\ijkplayerjava\build\generated\assets\shaders\release"/></dataSet><dataSet config="release"><source path="H:\workspace\BVideo\ijkplayerjava\src\release\assets"/></dataSet></merger>
